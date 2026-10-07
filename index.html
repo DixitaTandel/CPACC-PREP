@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCQ Practice</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Schibsted+Grotesk:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#f4f7f6;--panel:#ffffff;--panel-2:#eef5f3;--ink:#14272b;--mute:#607477;
+  --line:#d7e2e0;--accent:#087f7b;--accent-2:#0b5f63;--accent-ink:#fff;
+  --ok:#18794e;--okbg:#e3f6ec;--bad:#b42318;--badbg:#fde8e6;
+  --shadow:0 10px 30px rgba(20,55,58,.07);--shadow-sm:0 3px 12px rgba(20,55,58,.06);
+  --radius:18px;
+}
+:root[data-theme="dark"]{
+  --bg:#0b1719;--panel:#132326;--panel-2:#193033;--ink:#eaf4f2;--mute:#9ab0b2;
+  --line:#294346;--accent:#57d3c8;--accent-2:#8ae6df;--accent-ink:#082022;
+  --ok:#73d6a2;--okbg:#17382b;--bad:#ff9188;--badbg:#41201e;
+  --shadow:0 14px 40px rgba(0,0,0,.22);--shadow-sm:0 4px 14px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1719;--panel:#132326;--panel-2:#193033;--ink:#eaf4f2;--mute:#9ab0b2;
+    --line:#294346;--accent:#57d3c8;--accent-2:#8ae6df;--accent-ink:#082022;
+    --ok:#73d6a2;--okbg:#17382b;--bad:#ff9188;--badbg:#41201e;
+    --shadow:0 14px 40px rgba(0,0,0,.22);--shadow-sm:0 4px 14px rgba(0,0,0,.18);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+    radial-gradient(circle at 10% 0%,rgba(8,127,123,.09),transparent 30rem),
+    var(--bg);color:var(--ink);font:16px/1.6 "Schibsted Grotesk",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+main{max-width:1060px;margin:0 auto;padding:26px 20px 80px}
+header{
+  position:sticky;top:0;z-index:20;margin:0 -20px 26px;padding:14px 20px;
+  display:flex;align-items:center;gap:18px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(16px);border-bottom:1px solid color-mix(in srgb,var(--line) 75%,transparent)
+}
+h1{font:700 28px/1.1 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.02em}
+h1:before{content:"✦";display:inline-grid;place-items:center;width:34px;height:34px;margin-right:9px;
+  border-radius:11px;background:var(--accent);color:var(--accent-ink);font:700 18px system-ui;vertical-align:-3px}
+nav{display:flex;gap:7px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;background:var(--panel);border:1px solid var(--line);color:var(--ink);
+  padding:9px 15px;border-radius:999px;font-weight:600;box-shadow:var(--shadow-sm);transition:.2s
+}
+.tab:hover{transform:translateY(-1px);border-color:var(--accent)}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);box-shadow:0 5px 16px rgba(8,127,123,.22)}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-bottom:18px;box-shadow:var(--shadow)
+}
+.card:first-child{box-shadow:var(--shadow)}
+.btn{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);border:0;
+  padding:11px 18px;border-radius:11px;font-weight:800;box-shadow:0 5px 15px rgba(8,127,123,.18);
+  transition:transform .18s,box-shadow .18s
+}
+.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 20px rgba(8,127,123,.25)}
+.btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line);font-weight:650;box-shadow:none}
+.btn:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mute{color:var(--mute);font-size:14px}
+textarea{
+  width:100%;min-height:190px;background:var(--panel-2);color:var(--ink);border:1px solid var(--line);
+  border-radius:12px;padding:13px;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical
+}
+textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent);outline:none}
+label.f{display:block;font-weight:800;margin:14px 0 7px}
+label:not(.f){font-weight:650}
+select{
+  font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:10px;padding:9px 12px;margin-left:5px
+}
+.bar{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#59cfc3);transition:width .3s;border-radius:inherit}
+.qtitle{color:var(--accent);font-size:14px;font-weight:800;letter-spacing:.02em;margin:16px 0 6px}
+.qtext{font:600 27px/1.4 "Newsreader",Georgia,serif;margin:0 0 22px;letter-spacing:-.01em}
+.opt{
+  display:flex;gap:14px;width:100%;text-align:left;background:var(--panel-2);color:var(--ink);
+  border:2px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:11px;
+  transition:.18s;line-height:1.5
+}
+.opt b{
+  flex:none;width:30px;height:30px;display:grid;place-items:center;border-radius:9px;
+  background:var(--panel);border:1px solid var(--line);color:var(--accent)
+}
+.opt:not(:disabled):hover{border-color:var(--accent);background:var(--panel);transform:translateX(2px)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.ok b{background:var(--ok);color:white;border-color:var(--ok)}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt.bad b{background:var(--bad);color:white;border-color:var(--bad)}
+.opt:disabled{cursor:default;color:var(--ink)}
+.fb{margin:14px 0;font-weight:800;padding:11px 13px;border-radius:11px}
+.fb.ok{color:var(--ok);background:var(--okbg)}.fb.bad{color:var(--bad);background:var(--badbg)}
+.score{font:700 64px/1 "Newsreader",Georgia,serif;margin:8px 0}
+.item{border-top:1px solid var(--line);padding:14px 0}
+.item:first-child{border-top:0}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800;margin-right:6px}
+.tag.ok{background:var(--okbg);color:var(--ok)}.tag.bad{background:var(--badbg);color:var(--bad)}
+.hide{display:none}
+details{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;
+  padding:0 18px;box-shadow:var(--shadow-sm)
+}
+summary{cursor:pointer;padding:15px 0;font-weight:800;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"＋";display:inline-grid;place-items:center;width:25px;height:25px;margin-right:8px;
+  border-radius:8px;background:var(--panel-2);color:var(--accent);font-weight:900}
+details[open]>summary:before{content:"−"}
+summary .w{float:right;color:var(--accent);font-weight:900;background:var(--panel-2);padding:2px 9px;border-radius:999px;font-size:13px}
+.top>summary{font:700 22px/1.3 "Newsreader",Georgia,serif}
+.top>summary:before{font-family:system-ui}
+.top details{background:var(--bg);margin:0 0 9px;box-shadow:none}
+.top .body{padding:0 0 12px}
+.body p{margin:0 0 11px}.body ul,.body ol{margin:0 0 12px;padding-left:24px}.body li{margin:5px 0}
+.goal{color:var(--mute);font-size:14px;margin:0 0 14px;padding:10px 12px;background:var(--panel-2);border-radius:10px}
+.tw{overflow-x:auto;margin-bottom:6px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:14px;overflow:hidden;border:1px solid var(--line);border-radius:12px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-top:1px solid var(--line)}
+th{font-weight:800;color:var(--accent);border-top:0;background:var(--panel-2)}
+td:first-child{font-weight:750}
+tr:first-child td{border-top:0}
+#v-study>.card:first-child{
+  background:linear-gradient(135deg,var(--panel),var(--panel-2));border-color:color-mix(in srgb,var(--accent) 28%,var(--line))
+}
+#v-study>.card:first-child p{font-size:17px;max-width:760px}
+#setup{background:linear-gradient(135deg,var(--panel),var(--panel-2))}
+#bankinfo{font-size:18px;font-weight:700}
+#listhead{font-size:18px}
+@media(max-width:760px){
+  main{padding:12px 12px 60px}
+  header{margin:0 -12px 18px;padding:11px 12px;align-items:flex-start;flex-wrap:wrap}
+  h1{width:100%;font-size:24px}
+  nav{width:100%}
+  .card{padding:18px;border-radius:15px}
+  .qtext{font-size:23px}
+  .top>summary{font-size:19px}
+  .top>summary .w{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+}
+
+/* Print-friendly exam/results */
+.print-only{display:none}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff!important;color:#111!important}
+  header,nav,#setup,#themeToggle,#start,#quit,#next,.btn,#v-study,#v-cheat,#v-add{display:none!important}
+  main{max-width:none;padding:0!important}
+  #v-practice{display:block!important}
+  #quiz{display:block!important;border:0!important;box-shadow:none!important;padding:0!important}
+  #result{display:block!important;border:0!important;box-shadow:none!important;padding:0!important}
+  #quiz .opt{break-inside:avoid;background:#fff!important;color:#111!important;border:1px solid #bbb!important}
+  #quiz .bar{display:none}
+  .print-only{display:block!important}
+  .print-hide{display:none!important}
+  .item{break-inside:avoid}
+  .score{font-size:48px}
+}
+
+/* CPACC visual learning aids */
+.visual-aid{
+  margin:18px 0;padding:18px;border:1px solid var(--line);
+  border-radius:18px;background:linear-gradient(135deg,var(--card),var(--soft));
+  box-shadow:0 8px 24px rgba(0,0,0,.05)
+}
+.visual-aid h3{margin:0 0 12px}
+.diagram{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;justify-content:center}
+.diagram .node{
+  flex:1 1 150px;min-width:130px;padding:14px;border:1px solid var(--line);
+  border-radius:14px;background:var(--card);text-align:center
+}
+.diagram .arrow{display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+.example-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.example{
+  padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--card)
+}
+.example .label{font-weight:800;margin-bottom:6px}
+.memory{
+  margin-top:12px;padding:12px 14px;border-radius:12px;
+  border-left:4px solid currentColor;background:var(--card)
+}
+.memory strong{display:block;margin-bottom:4px}
+.visual-table{width:100%;border-collapse:collapse;margin-top:10px}
+.visual-table th,.visual-table td{border:1px solid var(--line);padding:10px;vertical-align:top}
+.visual-table th{font-weight:800}
+.pyramid{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:5px;text-align:center}
+.pyramid div{margin:auto;padding:11px 14px;border:1px solid var(--line);border-radius:10px}
+.pyramid .p1{width:42%}.pyramid .p2{width:58%}.pyramid .p3{width:74%}.pyramid .p4{width:90%}
+@media(max-width:600px){
+  .diagram .arrow{transform:rotate(90deg);width:100%;height:8px}
+  .pyramid div{width:100%!important}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>MCQ Practice</h1>
+  <nav role="tablist">
+    <button class="tab" role="tab" id="t-study" aria-selected="false">Study</button>
+    <button class="tab" role="tab" id="t-cheat" aria-selected="false">Cheat sheets</button>
+    <button class="tab" role="tab" id="t-practice" aria-selected="true">Practice</button>
+    <button class="tab" role="tab" id="t-add" aria-selected="false">Add questions</button>
+  </nav>
+  <button class="btn ghost" id="themeToggle" type="button" aria-label="Toggle dark mode">◐</button>
+</header>
+
+<section id="v-study" class="hide">
+<div class="visual-aid">
+  <h3>🧠 CPACC Exam Map — See the Big Picture</h3>
+  <div class="diagram">
+    <div class="node"><b>Domain 1</b><br>Disabilities, challenges &amp; assistive technologies<br><small>40%</small></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Domain 2</b><br>Accessibility &amp; universal design<br><small>40%</small></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Domain 3</b><br>Standards, laws &amp; management<br><small>20%</small></div>
+  </div>
+  <div class="memory"><strong>💡 Memory trick</strong>Think: <b>People → Design → Rules &amp; Strategy</b>.</div>
+</div>
+
+<div class="visual-aid">
+  <h3>♿ Disability Models — Compare Them Visually</h3>
+  <div class="example-grid">
+    <div class="example"><div class="label">Medical model</div>Focuses on the person's impairment or condition and treats disability primarily as an individual issue.</div>
+    <div class="example"><div class="label">Social model</div>Focuses on barriers in society and the environment that disable people.</div>
+    <div class="example"><div class="label">Charity model</div>Views people with disabilities as needing help or charity from others.</div>
+    <div class="example"><div class="label">Economic model</div>Looks at disability in terms of economic consequences and participation.</div>
+    <div class="example"><div class="label">Human-rights model</div>Emphasizes equality, dignity, participation and rights.</div>
+  </div>
+  <div class="memory"><strong>💡 Easy exam distinction</strong>
+    <b>Medical = person/condition.</b> <b>Social = barriers.</b> <b>Charity = help.</b>
+    <b>Human rights = equality and rights.</b>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🔄 From Impairment to Accessibility Barrier</h3>
+  <div class="diagram">
+    <div class="node"><b>Person</b><br>has an impairment or disability</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Environment</b><br>may contain barriers</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Challenge</b><br>task becomes difficult or impossible</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Accessibility</b><br>remove or reduce the barrier</div>
+  </div>
+  <div class="example-grid" style="margin-top:12px">
+    <div class="example"><div class="label">Visual example</div>A screen-reader user encounters an unlabeled button → the interface lacks an accessible name → adding an appropriate accessible name removes the barrier.</div>
+    <div class="example"><div class="label">Motor example</div>A user cannot accurately activate a tiny target → increasing the target size provides an easier interaction.</div>
+    <div class="example"><div class="label">Hearing example</div>A video contains important spoken information without captions → captions provide an equivalent way to access the information.</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🛠️ Disability → Barrier → Assistive Technology</h3>
+  <table class="visual-table">
+    <tr><th>Situation</th><th>Possible barrier</th><th>Example AT / support</th></tr>
+    <tr><td>Blind or low-vision user</td><td>Visual information is unavailable or difficult to perceive</td><td>Screen reader, magnification, refreshable braille display</td></tr>
+    <tr><td>Deaf or hard-of-hearing user</td><td>Audio-only information</td><td>Captions, transcripts, visual alerts</td></tr>
+    <tr><td>Motor disability</td><td>Precise physical interaction is difficult</td><td>Alternative input devices, keyboard access, switch access</td></tr>
+    <tr><td>Cognitive disability</td><td>Complex language, memory load or confusing navigation</td><td>Clear instructions, consistent navigation, supportive technologies</td></tr>
+  </table>
+  <div class="memory"><strong>💡 Remember</strong>Assistive technology can help a person interact with an environment; accessibility also requires reducing barriers in the environment itself.</div>
+</div>
+
+<div class="visual-aid">
+  <h3>🏠 Accommodation vs Universal Design</h3>
+  <div class="diagram">
+    <div class="node"><b>Accommodation</b><br>Adjusts something for a particular person's needs.</div>
+    <div class="arrow">VS</div>
+    <div class="node"><b>Universal Design</b><br>Designs the product/environment to work for as many people as possible from the start.</div>
+  </div>
+  <div class="example-grid" style="margin-top:12px">
+    <div class="example"><div class="label">Accommodation example</div>Providing an individual alternative format because a particular person needs it.</div>
+    <div class="example"><div class="label">Universal design example</div>Providing captions as part of the video experience so many people can use them when needed.</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🎨 The 7 Principles of Universal Design</h3>
+  <div class="pyramid">
+    <div class="p1"><b>1. Equitable Use</b><br>Useful to people with diverse abilities</div>
+    <div class="p2"><b>2. Flexibility in Use</b><br>Supports different preferences and abilities</div>
+    <div class="p3"><b>3. Simple &amp; Intuitive Use</b><br>Easy to understand</div>
+    <div class="p3"><b>4. Perceptible Information</b><br>Information is communicated effectively</div>
+    <div class="p4"><b>5. Tolerance for Error</b><br>Reduces hazards and consequences of mistakes</div>
+    <div class="p4"><b>6. Low Physical Effort</b><br>Can be used efficiently and comfortably</div>
+    <div class="p4"><b>7. Size &amp; Space for Approach and Use</b><br>Enough space for different users and devices</div>
+  </div>
+  <div class="memory"><strong>💡 Quick recall</strong><b>Equitable → Flexible → Simple → Perceptible → Error-tolerant → Low effort → Space.</b></div>
+</div>
+
+<div class="visual-aid">
+  <h3>📚 UDL vs Universal Design vs Usability vs UX</h3>
+  <div class="example-grid">
+    <div class="example"><div class="label">Universal Design</div>Design of environments/products so they can be used by the widest range of people.</div>
+    <div class="example"><div class="label">UDL</div>Applies flexible design principles to learning and teaching.</div>
+    <div class="example"><div class="label">Usability</div>How effectively, efficiently and satisfactorily users can achieve goals.</div>
+    <div class="example"><div class="label">UX</div>The broader experience a person has when interacting with a product or service.</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🌐 WCAG 2.2 — POUR in One Diagram</h3>
+  <div class="diagram">
+    <div class="node"><b>P</b><br>Perceivable<br><small>Users can perceive information</small></div>
+    <div class="node"><b>O</b><br>Operable<br><small>Users can operate controls</small></div>
+    <div class="node"><b>U</b><br>Understandable<br><small>Users can understand content and operation</small></div>
+    <div class="node"><b>R</b><br>Robust<br><small>Works with current and future technologies</small></div>
+  </div>
+  <div class="memory"><strong>💡 Exam memory</strong><b>POUR = See it → Use it → Understand it → Works with technology.</b></div>
+</div>
+
+<div class="visual-aid">
+  <h3>📐 WCAG Structure: Principle → Guideline → Success Criterion</h3>
+  <div class="diagram">
+    <div class="node"><b>Principle</b><br>High-level accessibility goal</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Guideline</b><br>Organizes the goal into a specific area</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Success Criterion</b><br>Testable requirement</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Conformance</b><br>A / AA / AAA levels</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🔎 Accessibility Example: Contrast &amp; Resize</h3>
+  <div class="example-grid">
+    <div class="example"><div class="label">Contrast</div>Text and important visual information need sufficient contrast so users can distinguish them.</div>
+    <div class="example"><div class="label">Resize text</div>Content should remain usable when text is enlarged, rather than becoming clipped or inaccessible.</div>
+    <div class="example"><div class="label">Reflow</div>Content should adapt to a narrow viewport so users do not have to scroll in two dimensions unnecessarily for typical content.</div>
+    <div class="example"><div class="label">Target size</div>Interactive targets should provide enough size and spacing to support users with motor and other interaction difficulties.</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>⚖️ Laws, Standards &amp; Organizational Strategy</h3>
+  <div class="diagram">
+    <div class="node"><b>Law / Regulation</b><br>Legal obligations</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Standard / Guideline</b><br>Technical or best-practice requirements</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Policy &amp; Process</b><br>How the organization applies them</div>
+    <div class="arrow">→</div>
+    <div class="node"><b>Testing &amp; Monitoring</b><br>Verify and improve</div>
+  </div>
+</div>
+
+<div class="visual-aid">
+  <h3>🧩 CPACC Question Strategy</h3>
+  <div class="example-grid">
+    <div class="example"><div class="label">1. Identify the concept</div>Is the question about a disability model, AT, universal design, WCAG, law, or strategy?</div>
+    <div class="example"><div class="label">2. Look for the clue</div>Words such as <b>barrier</b>, <b>rights</b>, <b>individual adjustment</b>, <b>testable requirement</b>, or <b>assistive technology</b> often point to different concepts.</div>
+    <div class="example"><div class="label">3. Eliminate distractors</div>Ask which answer actually addresses the situation rather than a related but different concept.</div>
+    <div class="example"><div class="label">4. Apply, don't just memorize</div>Imagine the real user and the real barrier before selecting the answer.</div>
+  </div>
+</div>
+
+  <div class="card">
+    <p style="margin-top:0">Summary of the IAAP CPACC Body of Knowledge (v4.0). It follows the exam's three domains. This is a study aid, not a replacement for the full handbook.</p>
+    <a class="btn" style="display:inline-block;text-decoration:none" href="https://www.accessibilityassociation.org/sfsites/c/resource/CPACCBoK" target="_blank" rel="noopener">Open the full CPACC handbook</a>
+  </div>
+  <div id="study"></div>
+</section>
+
+<section id="v-cheat" class="hide">
+  <p class="mute" style="margin-top:0">Quick-recall tables. Laws and treaties are from general knowledge, so check dates against the handbook.</p>
+  <div id="cheat"></div>
+</section>
+
+<section id="v-practice">
+  <div id="setup" class="card">
+    <p id="bankinfo" style="margin-top:0"></p>
+    <div class="row">
+      <label>Order <select id="order"><option value="orig">As numbered</option><option value="shuf">Shuffled</option></select></label>
+      <label>Questions <select id="count"></select></label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="start">Start practice</button>
+    </div>
+  </div>
+  <div id="quiz" class="card hide"></div>
+  <div id="result" class="card hide"></div>
+</section>
+
+<section id="v-add" class="hide">
+  <div class="card">
+    <label class="f" for="qs" style="margin-top:0">Questions</label>
+    <p class="mute" style="margin:0 0 6px">Paste in the same format as your example: number and title, the question, then options A, B, C, D.</p>
+    <textarea id="qs" placeholder="58. Accessibility Evaluation&#10;Which approach is MOST effective…?&#10;A. …&#10;B. …"></textarea>
+    <label class="f" for="ans">Answers</label>
+    <p class="mute" style="margin:0 0 6px">One per line or separated by spaces, like 58-C or 59-A. You can add answers later, too.</p>
+    <textarea id="ans" style="min-height:100px" placeholder="58-C&#10;59-A"></textarea>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="addbtn">Add to bank</button>
+      <span id="addmsg" class="mute" role="status"></span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px">
+      <strong id="listhead">Question bank</strong>
+      <button class="btn ghost" id="clear">Clear all</button>
+    </div>
+    <div id="list"></div>
+  </div>
+</section>
+</main>
+
+<script>
+const KEY="mcq-bank-v1";
+let bank={}, answers={}; // bank[n]={n,title,text,opts:[{l,t}]}; answers[n]="C"
+const SAMPLE_Q=`58. Accessibility Evaluation
+Which approach is MOST effective for evaluating accessibility?
+A. Relying exclusively on automated testing
+B. Relying exclusively on user complaints
+C. Combining appropriate automated checks with manual evaluation and, where appropriate, user testing
+D. Checking only colour contrast
+59. Management Champion
+Why is having an accessibility management champion valuable?
+A. It can help secure organisational support, resources, accountability, and integration of accessibility into business processes.
+B. It eliminates the need for accessibility testing.
+C. It means only one person is responsible for accessibility.
+D. It guarantees that every product will conform to WCAG.`;
+const SAMPLE_A=`48-B 49-A 50-A 51-A 52-A 53-B 54-C 55-A 56-B 57-B 58-C 59-A 60-C`;
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify({bank,answers}))}catch(e){}}
+function load(){
+  try{const d=JSON.parse(localStorage.getItem(KEY)||"null");if(d&&d.bank){bank=d.bank;answers=d.answers||{};return}}catch(e){}
+  addQuestions(SAMPLE_Q,SAMPLE_A);
+}
+
+function parseQuestions(text){
+  const out=[];let cur=null,stage=0;
+  for(const raw of text.split(/\r?\n/)){
+    const line=raw.trim();if(!line)continue;
+    const opt=line.match(/^\(?([A-Ha-h])[.)]\s+(.*)$/);
+    const num=line.match(/^(\d+)[.)]\s+(.*)$/);
+    if(num&&!opt&&(!cur||cur.opts.length>0)){
+      cur={n:+num[1],head:num[2],body:[],opts:[]};out.push(cur);continue;
+    }
+    if(!cur)continue;
+    if(opt){cur.opts.push({l:opt[1].toUpperCase(),t:opt[2]});continue}
+    if(cur.opts.length)cur.opts[cur.opts.length-1].t+=" "+line;
+    else cur.body.push(line);
+  }
+  return out.filter(q=>q.opts.length>=2).map(q=>{
+    const hasBody=q.body.length>0;
+    return {n:q.n,title:hasBody?q.head:"",text:hasBody?q.body.join(" "):q.head,opts:q.opts};
+  });
+}
+function parseAnswers(text){
+  const m={};for(const x of text.matchAll(/(\d+)\s*[-–—:.)=]\s*([A-Ha-h])\b/g))m[+x[1]]=x[2].toUpperCase();return m;
+}
+function addQuestions(qt,at){
+  const qs=parseQuestions(qt),an=parseAnswers(at);
+  qs.forEach(q=>bank[q.n]=q);Object.assign(answers,an);save();
+  return {added:qs.length,answered:qs.filter(q=>answers[q.n]).length,missing:qs.filter(q=>!answers[q.n]).map(q=>q.n)};
+}
+const ready=()=>Object.values(bank).filter(q=>answers[q.n]&&q.opts.some(o=>o.l===answers[q.n])).sort((a,b)=>a.n-b.n);
+
+/* tabs */
+function tab(which){
+  for(const t of ["study","cheat","practice","add"]){$("v-"+t).classList.toggle("hide",t!==which);$("t-"+t).setAttribute("aria-selected",t===which)}
+  if(which==="add")renderList();else renderSetup();
+}
+$("t-study").onclick=()=>tab("study");
+$("t-cheat").onclick=()=>tab("cheat");
+$("t-practice").onclick=()=>tab("practice");
+$("t-add").onclick=()=>tab("add");
+
+/* add + list */
+$("addbtn").onclick=()=>{
+  const r=addQuestions($("qs").value,$("ans").value);
+  const hasAns=Object.keys(parseAnswers($("ans").value)).length;
+  $("addmsg").textContent=r.added||hasAns
+    ?`Added ${r.added} question${r.added===1?"":"s"}.`+(r.missing.length?` No answer yet for: ${r.missing.join(", ")}.`:"")
+    :"No questions found. Check that each option starts with A. B. C. D.";
+  if(r.added||hasAns){$("qs").value="";$("ans").value=""}
+  renderList();
+};
+$("clear").onclick=()=>{if(confirm("Delete every question and answer?")){bank={};answers={};save();renderList()}};
+function renderList(){
+  const qs=Object.values(bank).sort((a,b)=>a.n-b.n);
+  const orphan=Object.keys(answers).filter(n=>!bank[n]).length;
+  $("listhead").textContent=`Question bank (${qs.length})`;
+  $("list").innerHTML=(qs.length?qs.map(q=>`<div class="item row" style="justify-content:space-between;flex-wrap:nowrap">
+    <div><b>${q.n}.</b> ${esc(q.title||q.text)} ${answers[q.n]?`<span class="tag ok">Answer ${answers[q.n]}</span>`:`<span class="tag bad">No answer</span>`}</div>
+    <button class="btn ghost" data-del="${q.n}" aria-label="Delete question ${q.n}">Delete</button></div>`).join(""):`<p class="mute">No questions yet. Paste some above.</p>`)
+    +(orphan?`<p class="mute">${orphan} answer${orphan===1?"":"s"} saved for questions you haven't added yet.</p>`:"");
+  $("list").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{delete bank[b.dataset.del];delete answers[b.dataset.del];save();renderList()});
+}
+
+/* practice */
+let run=null;
+function renderSetup(){
+  const n=ready().length;
+  $("setup").classList.remove("hide");$("quiz").classList.add("hide");$("result").classList.add("hide");
+  $("bankinfo").textContent=n?`${n} question${n===1?"":"s"} ready to practice.`:"Nothing to practice yet. Add questions and answers first.";
+  const opts=[];for(const c of [5,10,20,50])if(c<n)opts.push(c);opts.push(n);
+  $("count").innerHTML=opts.filter((v,i,a)=>v>0&&a.indexOf(v)===i).map(v=>`<option value="${v}">${v===n?"All "+n:v}</option>`).join("");
+  $("start").disabled=!n;
+}
+function startRun(qs){
+  run={qs,i:0,picked:null,results:[]};
+  $("setup").classList.add("hide");$("result").classList.add("hide");$("quiz").classList.remove("hide");
+  showQ();
+}
+$("start").onclick=()=>{
+  let qs=ready();
+  if($("order").value==="shuf")qs=qs.sort(()=>Math.random()-.5);
+  startRun(qs.slice(0,+$("count").value||qs.length));
+};
+function showQ(){
+  const q=run.qs[run.i],tot=run.qs.length;run.picked=null;
+  $("quiz").innerHTML=`<div class="bar"><i style="width:${run.i/tot*100}%"></i></div>
+    <div class="mute">Question ${run.i+1} of ${tot} · Correct so far: ${run.results.filter(r=>r.ok).length}</div>
+    ${q.title?`<div class="qtitle">${q.n}. ${esc(q.title)}</div>`:`<div class="qtitle">Question ${q.n}</div>`}
+    <p class="qtext">${esc(q.text)}</p>
+    <div id="opts">${q.opts.map(o=>`<button class="opt" data-l="${o.l}"><b>${o.l}</b><span>${esc(o.t)}</span></button>`).join("")}</div>
+    <div id="fb" role="status"></div>
+    <div class="row print-hide" style="margin-top:8px"><button class="btn hide" id="next"></button><button class="btn ghost" id="printExam" type="button">🖨 Print exam</button><button class="btn ghost" id="quit">End practice</button></div>`;
+  $("opts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(b.dataset.l));
+  $("printExam").onclick=()=>window.print();
+  $("quit").onclick=()=>{run.i>0||run.results.length?finish():renderSetup()};
+}
+function pick(l){
+  if(run.picked)return;run.picked=l;
+  const q=run.qs[run.i],right=answers[q.n],ok=l===right;
+  run.results.push({q,picked:l,ok});
+  $("opts").querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.l===right)b.classList.add("ok");
+    else if(b.dataset.l===l)b.classList.add("bad");
+  });
+  $("fb").innerHTML=ok?`<div class="fb ok">Correct.</div>`:`<div class="fb bad">Incorrect. The answer is ${right}.</div>`;
+  const last=run.i===run.qs.length-1;
+  $("next").textContent=last?"See results":"Next question";$("next").classList.remove("hide");$("next").focus();
+  $("next").onclick=()=>{if(last)finish();else{run.i++;showQ()}};
+}
+function finish(){
+  const r=run.results,ok=r.filter(x=>x.ok).length,bad=r.filter(x=>!x.ok);
+  $("quiz").classList.add("hide");$("result").classList.remove("hide");
+  $("result").innerHTML=`<div class="print-only"><h1>MCQ Practice — Exam Result</h1></div>
+    <div class="mute">Exam completed</div>
+    <div class="score">${ok} / ${r.length}</div>
+    <div class="mute" style="font-size:16px;font-weight:700">${r.length?Math.round(ok/r.length*100):0}% correct</div>
+    <div class="row print-hide" style="margin:18px 0">
+      ${bad.length?`<button class="btn" id="retry">Retry ${bad.length} missed</button>`:""}
+      <button class="btn ghost" id="printResult" type="button">🖨 Print exam & results</button>
+      <button class="btn ${bad.length?"ghost":""}" id="again">Back to start</button>
+    </div>
+    <div class="print-only" style="margin:18px 0;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 0">
+      <strong>Score:</strong> ${ok} / ${r.length} &nbsp; | &nbsp;
+      <strong>Percentage:</strong> ${r.length?Math.round(ok/r.length*100):0}%
+    </div>
+    ${bad.length?`<strong>Review missed questions</strong>`+bad.map(x=>`<div class="item"><div><b>${x.q.n}.</b> ${esc(x.q.text)}</div>
+      <div style="margin-top:6px"><span class="tag bad">Your answer: ${x.picked}</span><span class="tag ok">Correct answer: ${answers[x.q.n]}</span></div>
+      <div class="mute" style="margin-top:4px">${esc(x.q.opts.find(o=>o.l===answers[x.q.n]).t)}</div></div>`).join(""):`<p><strong>🎉 No mistakes. Nice work!</strong></p>`}`;
+  $("again").onclick=renderSetup;
+  $("printResult").onclick=()=>window.print();
+  if($("retry"))$("retry").onclick=()=>startRun(bad.map(x=>x.q));
+}
+
+
+/* study */
+const STUDY=[
+{t:"Domain 1: Disabilities, challenges and assistive technologies",w:"40%",goal:"Models of disability, categories of disability with barriers and assistive technology (AT), statistics, etiquette.",items:[
+["1A. Theoretical models of disability",`<ul>
+<li><b>Medical:</b> disability is a problem of the individual, fixed by cure or treatment. Weakness: overlooks inaccessible environments and attitudes.</li>
+<li><b>Social:</b> disability is caused by barriers in society, not by the impairment. Fix the environment. Weakness: can downplay bodily aspects of disability.</li>
+<li><b>Biopsychosocial:</b> combines biological, psychological and social factors (George Engel, 1977). The WHO ICF (2002) is derived from it. Weakness: complex, and worry that it downplays medical needs.</li>
+<li><b>Economic:</b> defines disability by inability to work and its cost to the individual, employer and state. Used for benefits. Related to the charity model. Weakness: stigmatizing, threshold disputes.</li>
+<li><b>Functional solutions:</b> identifies functional limits and creates technical or method solutions. Accessibility professionals' work fits here. Weakness: tech-only focus can miss social causes.</li>
+<li><b>Social identity / cultural affiliation:</b> disability as a point of pride and group belonging, most evident in Deaf culture. Weakness: people outside group expectations may feel excluded.</li>
+<li><b>Charity:</b> people with disabilities as unfortunate and needing help. Condescending, short-term focus.</li></ul>
+<p>No model is complete. Organizations mostly mix the social and medical models. The social model aligns most closely with accessibility and universal design.</p>`],
+["1B/1C. Categories, barriers, solutions, AT",`<p><b>Key terms:</b> assistive technology = products or systems that let people do tasks they couldn't otherwise (not always computer-based, e.g. cardboard communication boards). Adaptive strategies = tweaks and adjustments people use to do daily tasks (e.g. moving closer to a speaker). Accessibility = designing so everyone has equal access; the provider or owner is responsible.</p>
+<ul>
+<li><b>Visual</b> (blindness, color vision deficiency, low vision): screen readers, audio description, magnification, braille, canes, contrast and color tools. Barriers: no text alternatives, low contrast, fixed-size text, no keyboard access, no audio description.</li>
+<li><b>Auditory</b> (deafness, hard of hearing, central auditory processing disorder): sign language interpretation, captions, CART or STTR, transcripts, visual alerts, hearing aids, cochlear implants, assistive listening systems and induction loops. Barriers: uncaptioned audio, voice-only interaction, background noise.</li>
+<li><b>Deaf-blindness:</b> touch is the main channel. Refreshable braille display, braille transcripts, tactile sign language interpretation, haptic alerts.</li>
+<li><b>Speech and language</b> (apraxia, dysarthria, mutism, aphasia): AAC devices, text-to-speech, speech-to-text, word prediction, symbol boards. Solutions: more time, patience, text alternatives to speech.</li>
+<li><b>Mobility, flexibility, body structure</b> (fine motor, ambulation, muscle fatigue, body size): switch devices, sip and puff, voice control, eye tracking, head wand, wheelchairs, lifts, grab bars. Physical: wide paths, level access, reachable controls. Digital: big touch targets, spacing, not mouse-only.</li>
+<li><b>Cognitive</b> (intellectual disability, dyslexia, dyscalculia, ADHD, autism, NLD): AT supports mental functions (attention, memory, perception, emotion, reading and writing, communication), not diagnoses. Solutions: plain language, simple distraction-free interfaces, enough time, multiple formats, personalization. Barriers: forms, passwords, timeouts, information overload.</li>
+<li><b>Seizure</b> (epilepsy, photosensitive epilepsy): nothing that flashes more than three times in any one second, or below flash thresholds. Controls to stop animation. Most triggering rates are about 16 to 25 flashes per second.</li>
+<li><b>Psychological</b> (anxiety, mood, psychotic disorders): stress and mood apps, reminders, memory aids, voice recognition. Barriers include stigma and limited access to care. Many cognitive solutions help here too.</li>
+<li><b>Multiple / complex:</b> more than one disability at once. Combine solutions as needed (programmable keyboards, communication aids, text-to-braille).</li></ul>`],
+["1D. Disability demographics and statistics",`<ul>
+<li>WHO: about 1.3 billion people (16%, 1 in 6) experience significant disability.</li>
+<li>Vision: at least 2.2 billion with vision impairment. Red-green color deficiency affects 1 in 12 males (8.3%) and 1 in 200 females (0.5%).</li>
+<li>Hearing: about 430 million with disabling hearing loss. Autism: about 1 in 100. Epilepsy: about 50 million. Dyslexia: about 5 to 10%.</li>
+<li><b>Limits:</b> terminology varies by country, details rarely in census surveys, many people have several disabilities. Read each study in its context.</li></ul>`],
+["1E. Disability etiquette",`<ul>
+<li>Speak to the person, not their companion. Don't assume what they can or can't do.</li>
+<li>Offer help only if asked or after asking permission. Respect their decisions, space and privacy. Don't touch a wheelchair or equipment without permission.</li>
+<li><b>People-first language</b> ("person with a disability") is used by the UN CRPD and IAAP/G3ict. <b>Identity-first</b> ("disabled person") is preferred by some communities. When referring to a specific person, ask what they prefer.</li></ul>`]]},
+{t:"Domain 2: Accessibility and universal design",w:"40%",goal:"Accommodations vs universal design, benefits, WCAG, built environment, the 7 principles, UDL, usability and UX.",items:[
+["2A. Accommodations vs universal design",`<p><b>Reasonable accommodations</b> are specific adjustments for a specific case. <b>Universal design</b> builds for the widest range of people so fewer adaptations are needed. UD doesn't remove the need for accommodation entirely.</p>
+<p>Related concepts: inclusive design, design for all (common in Europe, e.g. EN 17161:2019), human-centered design, life-span design.</p>
+<ul><li><b>Accessibility:</b> equivalent experience for people with disabilities, free of barriers.</li><li><b>Usability:</b> ease of use, but doesn't always consider disability.</li><li><b>Universal design:</b> includes everyone without naming target groups.</li></ul>`],
+["2B. Benefits of accessibility",`<p>Participation in education, work and social life, more independence, innovation from diverse perspectives, cost savings, and improvements that help everyone (older people, temporary or situational limits, small screens, slow connections). Excluding people from the labor market causes measurable GDP loss.</p>`],
+["2C. Web accessibility and WCAG",`<p>The handbook cites WCAG 2.2: <b>4 principles and 13 guidelines</b>.</p>
+<ul><li><b>Perceivable:</b> text alternatives, captions and alternatives for multimedia, adaptable presentation, easier to see and hear.</li>
+<li><b>Operable:</b> keyboard accessible, enough time, no seizure-causing content, navigable, other input modalities.</li>
+<li><b>Understandable:</b> readable, predictable, help avoid and correct mistakes.</li>
+<li><b>Robust:</b> compatible with current and future user tools, including AT.</li></ul>`],
+["2D. Built environment",`<p>Goal: buildings, public spaces and transport usable by all. UD principles were first developed for the built environment. Minimum building standards are about compliance (often accommodation), while best-practice UD guidelines aim for the best result. Retrofitting later often costs more than designing it in. Focus areas: access in and out, moving around inside (including evacuation routes and signs), and transport.</p>`],
+["2E. The 7 principles of universal design",`<p>Developed in 1997 at NC State University, led by Ronald Mace.</p>
+<ol><li><b>Equitable Use:</b> same means for all, no segregation or stigma.</li><li><b>Flexibility in Use:</b> choice of methods, right- or left-handed, adapts to the user's pace.</li><li><b>Simple and Intuitive Use:</b> remove unnecessary complexity, match expectations, give feedback.</li><li><b>Perceptible Information:</b> redundant modes (pictorial, verbal, tactile), contrast, legibility.</li><li><b>Tolerance for Error:</b> minimize hazards, warnings, fail-safe features.</li><li><b>Low Physical Effort:</b> neutral body position, reasonable force, minimal repetition.</li><li><b>Size and Space for Approach and Use:</b> clear sight lines, reachable, room for AT.</li></ol>`],
+["2F. UDL, usability and UX",`<p>Universal Design for Learning has three guidelines groupings: multiple means of <b>engagement</b> (the why), <b>representation</b> (the what) and <b>action and expression</b> (the how). The handbook also covers usability and user experience (UX). The handbook text for this part was not included in what I could read, so check it in the full handbook.</p>`]]},
+{t:"Domain 3: Standards, laws and management strategies",w:"20%",goal:"Rights instruments, laws, ICT standards and organizational management. Topic list from the handbook outline.",items:[
+["3A. International declarations and conventions",`<ul><li>Universal Declaration of Human Rights</li><li>Convention on the Rights of Persons with Disabilities (CRPD): people-first language, Article 2 definitions, Article 9 accessibility</li><li>Marrakesh Treaty (accessible-format published works for people with print disabilities)</li></ul>`],
+["3B. Regional instruments",`<ul><li>EU Charter of Fundamental Rights</li><li>African Charter on Human and Peoples' Rights</li><li>Inter-American Convention on the Elimination of All Forms of Discrimination Against Persons with Disabilities</li></ul>`],
+["3C. National and provincial laws",`<ul><li>UK Equality Act 2010</li><li>Americans with Disabilities Act of 1990</li><li>Ontarians with Disabilities Act of 2001</li><li>Disability laws in EU countries</li></ul>`],
+["3D. Domain-specific and procurement laws",`<p>Laws specific to areas such as education, employment, transport and communications, plus public procurement requirements that make accessibility a purchasing condition.</p>`],
+["3E. Applying standards and regulations to ICT",`<p>How accessibility standards and regulations apply to digital products and services (WCAG and related regional rules).</p>`],
+["3F. Integrating accessibility across the organization",`<ul><li>W3C WAI recommendations and European Agency for Special Needs and Inclusive Education guidelines</li><li><b>Maturity models</b> to assess and plan progress</li><li><b>Management champions</b> secure support, resources and accountability</li><li><b>Evaluating</b> with automated checks, manual evaluation and user testing combined</li><li>Recruiting and hiring, communication management, legal and PR implications, purchasing and public procurement</li></ul>`]]},
+{t:"WCAG 2.2 reference",w:"Domain 2C",goal:"4 principles, 13 guidelines, 86 success criteria. Level in brackets. The exam outline names WCAG 2.1, the handbook text cites 2.2, so know both.",items:[
+["Basics and conformance",`<ul>
+<li><b>Structure:</b> principles (POUR) > guidelines > success criteria (testable) > techniques (sufficient, advisory, failures).</li>
+<li><b>Levels:</b> A (minimum), AA (the usual legal and policy target), AAA (not required as a whole; not possible for all content).</li>
+<li><b>Version history:</b> 2.0 (2008), 2.1 (2018) added 17 criteria mainly for mobile, low vision and cognitive needs, 2.2 (2023) added 9 and removed 4.1.1 Parsing. 2.2 has 86 criteria (31 A, 24 AA, 31 AAA). Newer versions are backward compatible.</li>
+<li><b>Conformance requirements:</b> conformance level, full pages, complete processes (every step of a flow), only accessibility-supported ways of using technologies, non-interference (technologies that aren't relied on must not block access).</li></ul>`],
+["P: Perceivable",`<ul>
+<li><b>1.1 Text alternatives:</b> 1.1.1 Non-text Content (A). Decorative images get empty alt or are hidden from AT.</li>
+<li><b>1.2 Time-based media:</b> 1.2.1 audio-only and video-only prerecorded (A), 1.2.2 captions prerecorded (A), 1.2.3 audio description or media alternative (A), 1.2.4 captions live (AA), 1.2.5 audio description prerecorded (AA). AAA: sign language, extended audio description.</li>
+<li><b>1.3 Adaptable:</b> 1.3.1 Info and Relationships (A, real headings, lists, labels, tables), 1.3.2 Meaningful Sequence (A), 1.3.3 Sensory Characteristics (A), 1.3.4 Orientation (AA), 1.3.5 Identify Input Purpose (AA).</li>
+<li><b>1.4 Distinguishable:</b> 1.4.1 Use of Color (A), 1.4.2 Audio Control (A), 1.4.3 Contrast Minimum (AA), 1.4.4 Resize Text to 200% (AA), 1.4.5 Images of Text (AA), 1.4.10 Reflow at 320 CSS px wide (AA), 1.4.11 Non-text Contrast 3:1 (AA), 1.4.12 Text Spacing (AA), 1.4.13 Content on Hover or Focus (AA: dismissible, hoverable, persistent). AAA: 1.4.6 Contrast Enhanced 7:1.</li></ul>`],
+["O: Operable",`<ul>
+<li><b>2.1 Keyboard accessible:</b> 2.1.1 Keyboard (A), 2.1.2 No Keyboard Trap (A), 2.1.4 Character Key Shortcuts (A).</li>
+<li><b>2.2 Enough time:</b> 2.2.1 Timing Adjustable (A), 2.2.2 Pause, Stop, Hide (A: moving, blinking or auto-updating content over 5 seconds).</li>
+<li><b>2.3 Seizures:</b> 2.3.1 Three Flashes or Below Threshold (A). AAA 2.3.2 stricter: no more than three flashes at all.</li>
+<li><b>2.4 Navigable:</b> 2.4.1 Bypass Blocks (A, skip link), 2.4.2 Page Titled (A), 2.4.3 Focus Order (A), 2.4.4 Link Purpose in Context (A), 2.4.5 Multiple Ways (AA), 2.4.6 Headings and Labels (AA), 2.4.7 Focus Visible (AA), <b>new in 2.2:</b> 2.4.11 Focus Not Obscured Minimum (AA).</li>
+<li><b>2.5 Input modalities:</b> 2.5.1 Pointer Gestures (A), 2.5.2 Pointer Cancellation (A), 2.5.3 Label in Name (A), 2.5.4 Motion Actuation (A), <b>new in 2.2:</b> 2.5.7 Dragging Movements (AA), 2.5.8 Target Size Minimum 24 by 24 CSS px (AA). AAA: 2.5.5 Target Size Enhanced 44 by 44.</li></ul>`],
+["U: Understandable",`<ul>
+<li><b>3.1 Readable:</b> 3.1.1 Language of Page (A), 3.1.2 Language of Parts (AA). AAA: reading level, unusual words, abbreviations.</li>
+<li><b>3.2 Predictable:</b> 3.2.1 On Focus (A), 3.2.2 On Input (A), 3.2.3 Consistent Navigation (AA), 3.2.4 Consistent Identification (AA), <b>new in 2.2:</b> 3.2.6 Consistent Help (A).</li>
+<li><b>3.3 Input assistance:</b> 3.3.1 Error Identification (A), 3.3.2 Labels or Instructions (A), 3.3.3 Error Suggestion (AA), 3.3.4 Error Prevention for legal, financial or data (AA), <b>new in 2.2:</b> 3.3.7 Redundant Entry (A), 3.3.8 Accessible Authentication Minimum (AA: no cognitive function test such as memorizing or transcribing, unless an alternative exists; paste and password managers must work).</li></ul>`],
+["R: Robust",`<ul>
+<li><b>4.1 Compatible:</b> 4.1.2 Name, Role, Value (A: custom controls expose name, role, state and value to AT, e.g. via ARIA), 4.1.3 Status Messages (AA: announced without moving focus).</li>
+<li>4.1.1 Parsing was removed in WCAG 2.2 because browsers and AT now handle markup errors reliably.</li></ul>`],
+["Numbers to memorize",`<ul>
+<li>Text contrast: <b>4.5:1</b> AA, <b>7:1</b> AAA. Large text (18pt or 14pt bold): <b>3:1</b> AA, <b>4.5:1</b> AAA. UI components and graphics: <b>3:1</b> AA.</li>
+<li>Resize text: <b>200%</b>. Reflow: <b>320 CSS px</b> wide (400% zoom). Target size: <b>24 px</b> AA, <b>44 px</b> AAA.</li>
+<li>Flashing: no more than <b>3 per second</b> (A). Pause, stop, hide: content moving over <b>5 seconds</b>.</li>
+<li>Counts: 4 principles, 13 guidelines, 86 criteria in 2.2 (78 in 2.1, 61 in 2.0).</li></ul>`]]}
+];
+function renderStudy(){
+  $("study").innerHTML=STUDY.map((d,i)=>`<details class="top" ${i===0?"open":""}><summary>${d.t}<span class="w">${d.w}</span></summary><div class="body"><p class="goal">${d.goal}</p>${d.items.map(it=>`<details><summary>${it[0]}</summary><div class="body">${it[1]}</div></details>`).join("")}</div></details>`).join("");
+}
+renderStudy();
+
+/* cheat sheets */
+const CHEATS=[
+{t:"Exam at a glance",h:["Domain","Weight","Covers"],r:[
+["1","40%","Models of disability, disability categories, AT, statistics, etiquette"],
+["2","40%","Accommodation vs UD, benefits, WCAG, built environment, 7 UD principles, UDL, UX"],
+["3","20%","Treaties, laws, ICT standards, organizational management"]]},
+{t:"Models of disability",h:["Model","Problem is...","Remember"],r:[
+["Medical","In the person","Cure or treat. Ignores barriers."],
+["Social","In society and environment","Remove barriers. Aligns with UD."],
+["Biopsychosocial","Bio + psycho + social","Engel 1977. WHO ICF 2002."],
+["Economic","Inability to work","Benefits policy. Linked to charity."],
+["Functional solutions","Functional limits","Solve with tech or method. Accessibility work."],
+["Social identity","Not a problem: identity","Deaf culture. Pride, belonging."],
+["Charity","Person needs pity and help","Condescending, short-term."]]},
+{t:"Disability to AT match",h:["Disability","Typical AT and strategies"],r:[
+["Blind","Screen reader, braille display, audio description, cane"],
+["Low vision","Magnification, high contrast, large print"],
+["Color vision deficiency","Don't rely on color alone, color filters"],
+["Deaf / hard of hearing","Captions, CART/STTR, sign interpreter, loops, hearing aids, visual alerts"],
+["Deaf-blind","Refreshable braille, tactile signing, braille transcripts"],
+["Speech","AAC devices, text-to-speech, symbol boards"],
+["Aphasia","Simple language, more time, text and picture alternatives"],
+["Motor / dexterity","Switch, sip and puff, voice control, eye tracking, head wand"],
+["Cognitive","Plain language, reminders, password managers, distraction-free layouts, more time"],
+["Dyslexia","Text-to-speech, adjustable fonts and spacing, audio books"],
+["Seizure","Nothing flashing over 3 per second, pause animation, flicker-free monitors"],
+["Psychological","Stress and mood apps, reminders, memory aids"]]},
+{t:"Easily confused terms",h:["Term","Meaning"],r:[
+["Accessibility","Equivalent, barrier-free experience for people with disabilities"],
+["Usability","Ease of use for target users. May not consider disability."],
+["Universal design","Usable by as many people as possible without adaptation"],
+["Accommodation","Specific adjustment for a specific person or case"],
+["Assistive technology","Product or system enabling tasks otherwise not possible"],
+["Adaptive strategy","Personal tweak or technique, e.g. moving closer to a speaker"],
+["Design for all","European term for UD (EN 17161:2019)"]]},
+{t:"7 principles of universal design",h:["Principle","Key idea"],r:[
+["1 Equitable Use","Same means for all, no stigma"],
+["2 Flexibility in Use","Choice, left or right hand, own pace"],
+["3 Simple and Intuitive","Remove complexity, give feedback"],
+["4 Perceptible Information","Several modes, contrast, legibility"],
+["5 Tolerance for Error","Warnings, fail-safe, minimize hazards"],
+["6 Low Physical Effort","Neutral posture, low force"],
+["7 Size and Space","Reach, sight lines, room for AT"]]},
+{t:"WCAG 2.2 in a nutshell",h:["Item","Fact"],r:[
+["POUR","Perceivable, Operable, Understandable, Robust"],
+["Counts","4 principles, 13 guidelines, 86 criteria (31 A, 24 AA, 31 AAA)"],
+["Contrast AA","4.5:1 text, 3:1 large text, 3:1 UI components"],
+["Contrast AAA","7:1 text, 4.5:1 large text"],
+["Zoom and reflow","200% text resize, 320 CSS px reflow"],
+["Target size","24 px AA, 44 px AAA"],
+["Flashing","No more than 3 per second"],
+["Captions","Prerecorded A, live AA"],
+["Audio description","Prerecorded AA"],
+["New in 2.2","Focus not obscured, dragging alternative, target size, consistent help, redundant entry, accessible authentication"],
+["Removed in 2.2","4.1.1 Parsing"]]},
+{t:"Laws and treaties",h:["Instrument","Remember"],r:[
+["UDHR","1948 UN declaration of human rights"],
+["CRPD","UN convention on disability rights. Article 9 accessibility. People-first language."],
+["Marrakesh Treaty","Accessible-format copies of published works for people with print disabilities"],
+["EU Charter of Fundamental Rights","EU rights charter, includes integration of persons with disabilities"],
+["African Charter","African Charter on Human and Peoples' Rights"],
+["Inter-American Convention","Eliminates all forms of discrimination against persons with disabilities"],
+["Equality Act 2010","UK. Includes duty of reasonable adjustments."],
+["ADA 1990","US. Civil rights law for disability."],
+["Ontarians with Disabilities Act 2001","Ontario, Canada provincial law"]]},
+{t:"Organizational strategy",h:["Topic","Remember"],r:[
+["Maturity model","Assess current state, plan progress"],
+["Management champion","Secures support, resources, accountability, integration into business processes"],
+["Evaluation","Automated checks + manual evaluation + user testing"],
+["Procurement","Make accessibility a purchasing requirement"],
+["Also covered","Recruiting and hiring, communication, legal and PR"]]},
+{t:"Etiquette quick list",h:["Do","Don't"],r:[
+["Speak to the person directly","Talk to the companion instead"],
+["Ask before helping","Assume what they can or can't do"],
+["Use people-first language by default","Use labels or pity language"],
+["Ask a person their preferred language","Touch a wheelchair or equipment without permission"]]}
+];
+function renderCheat(){
+  $("cheat").innerHTML=CHEATS.map(c=>`<div class="card"><strong>${c.t}</strong><div class="tw"><table><thead><tr>${c.h.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${c.r.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`).join("");
+}
+renderCheat();
+
+const themeToggle=$("themeToggle");
+function applyTheme(t){
+  if(t==="dark") document.documentElement.setAttribute("data-theme","dark");
+  else if(t==="light") document.documentElement.setAttribute("data-theme","light");
+  else document.documentElement.removeAttribute("data-theme");
+  themeToggle.textContent=t==="dark"?"☀":"◐";
+  themeToggle.setAttribute("aria-label",t==="dark"?"Switch to light mode":"Toggle dark mode");
+}
+let savedTheme=localStorage.getItem("mcq-theme")||"";
+applyTheme(savedTheme);
+themeToggle.onclick=()=>{
+  const current=document.documentElement.getAttribute("data-theme");
+  const next=current==="dark"?"light":"dark";
+  localStorage.setItem("mcq-theme",next);applyTheme(next);
+};
+
+load();renderSetup();
+</script>
+</body>
+</html>
